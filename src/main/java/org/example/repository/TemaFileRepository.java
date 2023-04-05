@@ -22,6 +22,8 @@ public class TemaFileRepository extends AbstractFileRepository<String, Tema> {
                     super.save(tema);
                 } catch (ValidationException ve) {
                     ve.printStackTrace();
+                } catch (AlreadyExistsException e) {
+                    throw new RuntimeException(e);
                 }
             });
         } catch (IOException ioe) {

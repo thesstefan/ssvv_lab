@@ -22,6 +22,8 @@ public class NotaFileRepository extends AbstractFileRepository<Pair<String, Stri
                     super.save(nota);
                 } catch (ValidationException ve) {
                     ve.printStackTrace();
+                } catch (AlreadyExistsException e) {
+                    throw new RuntimeException(e);
                 }
             });
         } catch (IOException ioe) {

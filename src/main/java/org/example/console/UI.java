@@ -2,6 +2,8 @@ package org.example.console;
 
 import org.example.domain.*;
 import org.example.service.Service;
+import org.example.validation.AlreadyExistsException;
+import org.example.validation.ValidationException;
 
 import java.util.Scanner;
 
@@ -61,11 +63,11 @@ public class UI {
         System.out.println("Introduceti grupa studentului: ");
         int grupa = scanner.nextInt();
 
-        if (service.saveStudent(id, nume, grupa) != 0) {
+        try {
+            service.saveStudent(id, nume, grupa);
             System.out.println("Student adaugat cu succes! \n");
-        }
-        else {
-            System.out.println("Student existent sau invalid! \n");
+        } catch (ValidationException | AlreadyExistsException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -84,11 +86,11 @@ public class UI {
         System.out.println("Introduceti saptamana startline a temei: ");
         int startline = scanner.nextInt();
 
-        if (service.saveTema(id, descriere, deadline, startline) != 0) {
+        try {
+            service.saveTema(id, descriere, deadline, startline);
             System.out.println("Tema adaugata cu succes! \n");
-        }
-        else {
-            System.out.println("Tema existenta sau invalida! \n");
+        } catch (ValidationException | AlreadyExistsException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -112,16 +114,11 @@ public class UI {
         System.out.println("Dati un feedback temei: ");
         String feedback = scanner.nextLine();
 
-        int result = service.saveNota(idStudent, idTema, valNota, predata, feedback);
-        if (result == 1) {
-            service.createStudentFile(idStudent, idTema);
+        try {
+            service.saveNota(idStudent, idTema, valNota, predata, feedback);
             System.out.println("Nota adaugata cu succes! \n");
-        }
-        else if (result == 0) {
-            System.out.println("Nota existenta! \n");
-        }
-        else {
-            System.out.println("Student sau tema inexistenta! \n");
+        } catch (ValidationException | AlreadyExistsException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 

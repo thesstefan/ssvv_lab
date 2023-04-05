@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import org.example.domain.HasID;
+import org.example.validation.AlreadyExistsException;
 import org.example.validation.ValidationException;
 import org.example.validation.Validator;
 
@@ -23,11 +24,10 @@ public abstract class AbstractFileRepository<ID, E extends HasID<ID>> extends Ab
     }
 
     @Override
-    public E save(E entity) throws ValidationException {
+    public E save(E entity) throws ValidationException, AlreadyExistsException {
         E result = super.save(entity);
-        if (result == null) {
-            writeToFile(entity);
-        }
+        writeToFile(entity);
+
         return result;
     }
 

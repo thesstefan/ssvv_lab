@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import org.example.domain.HasID;
+import org.example.validation.AlreadyExistsException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -39,7 +40,7 @@ public abstract class AbstractXMLRepository<ID, E extends HasID<ID>> extends Abs
                     try {
                         super.save(getEntityFromNode((Element)node));
                     }
-                    catch(ValidationException ve) {
+                    catch(ValidationException | AlreadyExistsException ve) {
                         ve.printStackTrace();
                     }
                 }
@@ -85,11 +86,10 @@ public abstract class AbstractXMLRepository<ID, E extends HasID<ID>> extends Abs
     }
 
     @Override
-    public E save(E entity) throws ValidationException {
+    public E save(E entity) throws AlreadyExistsException, ValidationException {
         E result = super.save(entity);
-        if (result == null) {
-            writeToXmlFile();
-        }
+        writeToXmlFile();
+
         return result;
     }
 

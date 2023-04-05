@@ -20,7 +20,7 @@ public interface CRUDRepository<ID, E> {
      * @throws ValidationException if the entity is not valid
      * @throws IllegalArgumentException if the given entity is null.
      **/
-    E save(E entity) throws ValidationException;
+    E save(E entity) throws ValidationException, AlreadyExistsException;
 
     /**
      * removes the entity with the specified id

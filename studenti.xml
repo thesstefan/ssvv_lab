@@ -12,6 +12,14 @@
         <Nume>Ion</Nume>
         <Grupa>227</Grupa>
     </student>
+    <student ID="15">
+        <Nume>gigi</Nume>
+        <Grupa>333</Grupa>
+    </student>
+    <student ID="16">
+        <Nume>gigi</Nume>
+        <Grupa>333</Grupa>
+    </student>
     <student ID="gelu">
         <Nume>gelu</Nume>
         <Grupa>123</Grupa>

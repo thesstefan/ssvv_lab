@@ -6,7 +6,7 @@ import org.example.validation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements CRUDRepository<ID, E>{
+public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements CRUDRepository<ID, E> {
     Map<ID, E> entities;
     Validator<E> validator;
 
@@ -19,33 +19,33 @@ public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements
     public E findOne(ID id) {
         if (id == null) {
             throw new IllegalArgumentException("ID-ul nu poate fi null! \n");
-        }
-        else {
+        } else {
             return entities.get(id);
         }
     }
 
     @Override
-    public Iterable<E> findAll() { return entities.values(); }
+    public Iterable<E> findAll() {
+        return entities.values();
+    }
 
     @Override
-    public E save(E entity) throws ValidationException {
-        try {
-            validator.validate(entity);
-            return entities.putIfAbsent(entity.getID(), entity);
-        }
-        catch (ValidationException ve) {
-            System.out.println("Entitatea nu este valida! \n");
-            return null;
-        }
+    public E save(E entity) throws ValidationException, AlreadyExistsException {
+        validator.validate(entity);
+
+        E oldEntity = entities.putIfAbsent(entity.getID(), entity);
+
+        if (oldEntity != null)
+            throw new AlreadyExistsException("Entity already exists");
+
+        return entity;
     }
 
     @Override
     public E delete(ID id) {
         if (id == null) {
             throw new IllegalArgumentException("ID-ul nu poate fi nul! \n");
-        }
-        else {
+        } else {
             return entities.remove(id);
         }
     }
@@ -55,8 +55,7 @@ public abstract class AbstractCRUDRepository<ID, E extends HasID<ID>> implements
         try {
             validator.validate(entity);
             return entities.replace(entity.getID(), entity);
-        }
-        catch (ValidationException ve) {
+        } catch (ValidationException ve) {
             System.out.println("Entitatea nu este valida! \n");
             return null;
         }

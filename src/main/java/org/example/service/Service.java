@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.domain.*;
 import org.example.repository.*;
+import org.example.validation.AlreadyExistsException;
 
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
@@ -24,29 +25,19 @@ public class Service {
 
     public Iterable<Nota> findAllNote() { return notaXmlRepo.findAll(); }
 
-    public int saveStudent(String id, String nume, int grupa) {
+    public void saveStudent(String id, String nume, int grupa) throws AlreadyExistsException {
         Student student = new Student(id, nume, grupa);
-        Student result = studentXmlRepo.save(student);
-
-        if (result == null) {
-            return 1;
-        }
-        return 0;
+        studentXmlRepo.save(student);
     }
 
-    public int saveTema(String id, String descriere, int deadline, int startline) {
+    public void saveTema(String id, String descriere, int deadline, int startline) throws AlreadyExistsException {
         Tema tema = new Tema(id, descriere, deadline, startline);
-        Tema result = temaXmlRepo.save(tema);
-
-        if (result == null) {
-            return 1;
-        }
-        return 0;
+        temaXmlRepo.save(tema);
     }
 
-    public int saveNota(String idStudent, String idTema, double valNota, int predata, String feedback) {
+    public void saveNota(String idStudent, String idTema, double valNota, int predata, String feedback) throws AlreadyExistsException {
         if (studentXmlRepo.findOne(idStudent) == null || temaXmlRepo.findOne(idTema) == null) {
-            return -1;
+            throw new RuntimeException("Student sau tema invalida!");
         }
         else {
             int deadline = temaXmlRepo.findOne(idTema).getDeadline();
@@ -57,12 +48,7 @@ public class Service {
                 valNota =  valNota - 2.5 * (predata - deadline);
             }
             Nota nota = new Nota(new Pair(idStudent, idTema), valNota, predata, feedback);
-            Nota result = notaXmlRepo.save(nota);
-
-            if (result == null) {
-                return 1;
-            }
-            return 0;
+            notaXmlRepo.save(nota);
         }
     }
 

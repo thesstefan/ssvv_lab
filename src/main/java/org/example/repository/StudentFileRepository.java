@@ -20,7 +20,7 @@ public class StudentFileRepository extends AbstractFileRepository<String, Studen
                 Student student = new Student(result[0], result[1], Integer.parseInt(result[2]));
                 try {
                     super.save(student);
-                } catch (ValidationException ve) {
+                } catch (ValidationException | AlreadyExistsException ve) {
                     ve.printStackTrace();
                 }
             });

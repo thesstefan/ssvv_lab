@@ -18,7 +18,7 @@ import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class StudentTest {
+public class ServiceTest {
     private Service service;
 
     private File createXMLFile(String fileName) throws IOException {

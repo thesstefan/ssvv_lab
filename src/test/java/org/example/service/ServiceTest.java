@@ -185,4 +185,14 @@ public class ServiceTest {
         assertEquals(addedStudent.getNume(), testName);
         assertEquals(addedStudent.getGrupa(), 935);
     }
+
+    @Test
+    public void addAssignment_Fail_nullIdTest() {
+        assertThrows(ValidationException.class, () -> service.saveTema(null, "Ionut", 3, 5), "Invalid ID!");
+    }
+
+    @Test
+    public void addAssignment_Fail_nullDescriptionTest() {
+        assertThrows(ValidationException.class, () -> service.saveTema("4", null, 3, 5), "Invalid ID!");
+    }
 }

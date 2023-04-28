@@ -223,11 +223,16 @@ public class ServiceTest {
 
     @Test
     public void addAssignment_largerStartTest() {
-        assertThrows(ValidationException.class, () -> service.saveTema("4", "Ionut", 5, 15), "Invalid start!");
+        assertThrows(ValidationException.class, () -> service.saveTema("4", "Ionut", 16, 15), "Invalid start!");
     }
 
     @Test
     public void addAssignment_badDeadlineRange() {
         assertThrows(ValidationException.class, () -> service.saveTema("4", "Ionut", 5, 14), "Invalid deadline!");
+    }
+
+    @Test
+    public void addAssignment_Success() {
+        assertDoesNotThrow(() -> service.saveTema("4", "Ionut", 5, 1));
     }
 }

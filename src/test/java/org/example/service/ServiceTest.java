@@ -195,4 +195,39 @@ public class ServiceTest {
     public void addAssignment_Fail_nullDescriptionTest() {
         assertThrows(ValidationException.class, () -> service.saveTema("4", null, 3, 5), "Invalid ID!");
     }
+
+    @Test
+    public void addAssignment_Fail_emptyIdTest() {
+        assertThrows(ValidationException.class, () -> service.saveTema("", "Ionut", 3, 5), "Invalid ID!");
+    }
+
+    @Test
+    public void addAssignment_Fail_emptyDescriptionTest() {
+        assertThrows(ValidationException.class, () -> service.saveTema("4", "", 3, 5), "Invalid description!");
+    }
+
+    @Test
+    public void addAssignment_smallerDeadlineTest() {
+        assertThrows(ValidationException.class, () -> service.saveTema("4", "Ionut", 0, 5), "Invalid deadline!");
+    }
+
+    @Test
+    public void addAssignment_largerDeadlineTest() {
+        assertThrows(ValidationException.class, () -> service.saveTema("4", "Ionut", 15, 5), "Invalid deadline!");
+    }
+
+    @Test
+    public void addAssignment_smallerStartTest() {
+        assertThrows(ValidationException.class, () -> service.saveTema("4", "Ionut", 5, 0), "Invalid start!");
+    }
+
+    @Test
+    public void addAssignment_largerStartTest() {
+        assertThrows(ValidationException.class, () -> service.saveTema("4", "Ionut", 5, 15), "Invalid start!");
+    }
+
+    @Test
+    public void addAssignment_badDeadlineRange() {
+        assertThrows(ValidationException.class, () -> service.saveTema("4", "Ionut", 5, 14), "Invalid deadline!");
+    }
 }

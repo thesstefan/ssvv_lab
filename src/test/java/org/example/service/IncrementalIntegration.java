@@ -50,9 +50,9 @@ public class IncrementalIntegration {
 
     @After
     public void tearDown() {
-        new File("STUDENTS.xml").delete();
-        new File("ASSIGNMENTS.xml").delete();
-        new File("GRADES.xml").delete();
+        new File("students.xml").delete();
+        new File("assignments.xml").delete();
+        new File("grades.xml").delete();
     }
 
     @Before
@@ -61,9 +61,9 @@ public class IncrementalIntegration {
         mockAssignmentRepository = mock(TemaXMLRepository.class);
         mockGradeRepository = mock(NotaXMLRepository.class);
 
-        File studentFile = createXMLFile("STUDENTS.xml");
-        File temeFile = createXMLFile("ASSIGNMENTS.xml");
-        File noteFile = createXMLFile("GRADES.xml");
+        File studentFile = createXMLFile("students.xml");
+        File temeFile = createXMLFile("assignments.xml");
+        File noteFile = createXMLFile("grades.xml");
 
         realStudentRepository = new StudentXMLRepository(new StudentValidator(), studentFile.getPath());
         realAssignmentRepository = new TemaXMLRepository(new TemaValidator(), temeFile.getPath());

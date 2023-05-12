@@ -19,19 +19,26 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@ExtendWith(MockitoExtension.class)
 public class IncrementalIntegration {
     private StudentXMLRepository realStudentRepository;
+    @Mock
     private StudentXMLRepository mockStudentRepository;
 
     private TemaXMLRepository realAssignmentRepository;
+    @Mock
     private TemaXMLRepository mockAssignmentRepository;
     private NotaXMLRepository realGradeRepository;
+    @Mock
     private NotaXMLRepository mockGradeRepository;
 
     private Service service;
